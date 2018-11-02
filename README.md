@@ -74,7 +74,12 @@ bundle install
 
 #### Run the test: 
 
-`bundle exec kitchen test`
+```
+bundle exec kitchen list
+bundle exec kitchen converge
+bundle exec kitchen verify
+bundle exec kitchen destroy
+```
 
 ### on Linux
 
