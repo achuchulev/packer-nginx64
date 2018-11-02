@@ -91,7 +91,7 @@ gem install kitchen-inspec
 gem install kitchen-vagrant
 ```
 
-##### Run kitchen test 
+#### Run kitchen test 
 
 ```
 kitchen list
