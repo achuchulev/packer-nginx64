@@ -5,5 +5,5 @@ packer_cache/
 builds/
 *.box
 *.vbox
-
+output-*/*
 .kitchen
