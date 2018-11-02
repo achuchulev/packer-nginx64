@@ -2,4 +2,8 @@
 packer_cache/
 
 # For built boxes
+builds/
 *.box
+*.vbox
+
+.kitchen
