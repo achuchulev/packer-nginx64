@@ -38,9 +38,55 @@
 
 `vagrant ssh`
 
-## Test box
+## Test box to verify that _nginx_ is installed
 
-### Run kitchen test to verify that _nginx_ is installed with following commands:
+### on Mac
+
+#### Prerequisites
+
+##### Install rbenv to use ruby version 2.3.1
+
+```
+brew install rbenv
+rbenv install 2.3.1
+rbenv local 2.3.1
+rbenv versions
+```
+
+##### Add the following lines to your ~/.bash_profile:
+
+```
+eval "$(rbenv init -)"
+true
+export PATH="$HOME/.rbenv/bin:$PATH"
+```
+
+##### Reload profile: 
+
+`source ~/.bash_profile`
+
+##### Install bundler
+
+```
+gem install bundler
+bundle install
+```
+
+#### Run the test: 
+
+`bundle exec kitchen test`
+
+### on Linux
+
+#### Prerequisites
+
+```
+gem install test-kitchen
+gem install kitchen-inspec
+gem install kitchen-vagrant
+```
+
+##### Run kitchen test 
 
 ```
 kitchen list
