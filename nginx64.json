@@ -1,6 +1,6 @@
 {
     "variables": {
-      "name": "achuchulev/xenial64",
+      "name": "achuchulev/nginx64",
       "build_name": "nginx64",
       "build_cpu_cores": "2",
       "build_memory": "1024",
@@ -55,7 +55,7 @@
             "{{user `build_cpu_cores`}}"
           ]
         ],
-        "shutdown_timeout": "20m",
+        "post_shutdown_delay": "20s",
         "vboxmanage_post": [
           [
             "modifyvm",
