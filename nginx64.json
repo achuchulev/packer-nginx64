@@ -55,7 +55,6 @@
             "{{user `build_cpu_cores`}}"
           ]
         ],
-        "config.vm.graceful_halt_timeout": "60s",
         "vboxmanage_post": [
           [
             "modifyvm",
