@@ -12,33 +12,42 @@ EOF
 export DEBIAN_FRONTEND=noninteractive
 export APTARGS="-qq -o=Dpkg::Use-Pty=0"
 
-apt-get clean ${APTARGS}
-apt-get update ${APTARGS}
+apt clean ${APTARGS}
+apt update ${APTARGS}
 
-apt-get upgrade -y ${APTARGS}
-apt-get dist-upgrade -y ${APTARGS}
+apt upgrade -y ${APTARGS}
+apt dist-upgrade -y ${APTARGS}
 
 # Update to the latest kernel
-apt-get install -y linux-generic linux-image-generic ${APTARGS}
+apt install -y linux-generic linux-image-generic ${APTARGS}
 
 # pip
-apt-get install -y python-pip ${APTARGS}
-apt-get install -y python3-pip ${APTARGS}
+apt install -y python-pip ${APTARGS}
+apt install -y python3-pip ${APTARGS}
 
 # git
-apt-get install -y git ${APTARGS}
+apt install -y git ${APTARGS}
 
 # jq
-apt-get install -y jq ${APTARGS}
+apt install -y jq ${APTARGS}
 
 # curl
-apt-get install -y curl ${APTARGS}
+apt install -y curl ${APTARGS}
 
-# curl
-apt-get install -y nginx ${APTARGS}
+# wget
+apt install -y wget ${APTARGS}
+
+# vim
+apt install -y vim ${APTARGS}
+
+# unzip
+apt install -y unzip ${APTARGS}
+
+# nginx
+apt install -y nginx ${APTARGS}
 
 # Hide Ubuntu splash screen during OS Boot, so you can see if the boot hangs
-apt-get remove -y plymouth-theme-ubuntu-text
+apt remove -y plymouth-theme-ubuntu-text
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub
 update-grub
 

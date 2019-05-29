@@ -1,5 +1,5 @@
-apt-get autoremove -y
-apt-get clean
+apt autoremove -y
+apt clean
 
 # Removing leftover leases and persistent rules
 echo "cleaning up dhcp leases"
