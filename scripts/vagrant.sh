@@ -14,4 +14,5 @@ chmod 600 /home/vagrant/.ssh/authorized_keys
 chown -R vagrant /home/vagrant/.ssh
 
 # Install NFS for Vagrant
-apt-get install -y nfs-common
+apt update
+apt install -y nfs-common
