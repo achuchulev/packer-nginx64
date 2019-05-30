@@ -18,7 +18,7 @@
         "ssh_password": "vagrant",
         "ssh_username": "vagrant",
         "update": "true",
-        "version": "0.0.1",
+        "version": "vbox",
         "virtualbox_guest_os_type": "Ubuntu_64"
     },
     "builders": [{
