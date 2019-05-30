@@ -8,6 +8,13 @@
 
 ## Bake box
 
+### Get the repo and bring up the environment
+
+```
+git clone https://github.com/achuchulev/packer-vagrant-nginx.git
+cd packer-vagrant-nginx
+```
+
 ### Validate template: 
 
 `packer validate nginx64.json`
