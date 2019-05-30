@@ -1,5 +1,26 @@
 {
-    "_comment": "Build with `packer build ubuntu.json`",
+    "variables": {
+        "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "vm_name": "achuchulev/nginx64",
+        "hostname": "nginx64",
+        "build_name": "nginx64",
+        "build_cpu_cores": "2",
+        "build_memory": "1024",
+        "cpu_cores": "1",
+        "memory": "512",
+        "disk_size": "40960",
+        "headless": "true",
+        "iso_checksum": "16afb1375372c57471ea5e29803a89a5a6bd1f6aabea2e5e34ac1ab7eb9786ac",
+        "iso_checksum_type": "sha256",
+        "iso_url": "http://releases.ubuntu.com/16.04.6/ubuntu-16.04.6-server-amd64.iso",
+        "preseed": "preseed.cfg",
+        "ssh_fullname": "vagrant",
+        "ssh_password": "vagrant",
+        "ssh_username": "vagrant",
+        "update": "true",
+        "version": "0.0.1",
+        "virtualbox_guest_os_type": "Ubuntu_64"
+    },
     "builders": [{
         "boot_command": [
             "{{user `boot_command_prefix`}}",
@@ -26,10 +47,7 @@
         "http_directory": "http",
         "iso_checksum": "{{user `iso_checksum`}}",
         "iso_checksum_type": "{{user `iso_checksum_type`}}",
-        "iso_urls": [
-            "{{user `iso_path`}}/{{user `iso_name`}}",
-            "{{user `iso_url`}}"
-        ],
+        "iso_url": "{{user `iso_url`}}",
         "output_directory": "output-{{user `vm_name`}}-virtualbox-iso",
         "shutdown_command": "echo '{{user `ssh_password`}}'|sudo -S shutdown -P now",
         "ssh_password": "{{user `ssh_password`}}",
@@ -37,67 +55,72 @@
         "ssh_wait_timeout": "10000s",
         "type": "virtualbox-iso",
         "vboxmanage": [
-            ["modifyvm", "{{.Name}}", "--audio", "none"],
-            ["modifyvm", "{{.Name}}", "--usb", "off"],
-            ["modifyvm", "{{.Name}}", "--vram", "12"],
-            ["modifyvm", "{{.Name}}", "--vrde", "off"],
-            ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
-            ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
+            [
+              "modifyvm",
+              "{{.Name}}",
+              "--memory",
+              "{{user `build_memory`}}"
+            ],
+            [
+              "modifyvm",
+              "{{.Name}}",
+              "--cpus",
+              "{{user `build_cpu_cores`}}"
+            ]
+          ],
+          "post_shutdown_delay": "20s",
+          "vboxmanage_post": [
+            [
+              "modifyvm",
+              "{{.Name}}",
+              "--memory",
+              "{{user `memory`}}"
+            ],
+            [
+              "modifyvm",
+              "{{.Name}}",
+              "--cpus",
+              "{{user `cpu_cores`}}"
+            ]
         ],
         "virtualbox_version_file": ".vbox_version",
         "vm_name": "{{user `vm_name`}}"
     }],
-    "post-processors": [{
-        "keep_input_artifact": false,
-        "output": "box/{{.Provider}}/{{user `vm_name`}}-{{user `version`}}.box",
-        "type": "vagrant",
-        "vagrantfile_template": "{{user `vagrantfile_template`}}"
-    }],
-    "provisioners": [{
-        "environment_vars": [
-            "DEBIAN_FRONTEND=noninteractive",
-            "UPDATE={{user `update`}}",
-            "DISABLE_IPV6={{user `disable_ipv6`}}",
-            "SSH_USERNAME={{user `ssh_username`}}",
-            "SSH_PASSWORD={{user `ssh_password`}}",
-            "http_proxy={{user `http_proxy`}}",
-            "https_proxy={{user `https_proxy`}}",
-            "no_proxy={{user `no_proxy`}}"
-        ],
-        "execute_command": "echo '{{user `ssh_password`}}'|{{.Vars}} sudo -E -S bash '{{.Path}}'",
-        "expect_disconnect": true,
-        "scripts": [
-            "scripts/vagrant.sh",
-            "scripts/packages.sh",
-            "scripts/virtualbox.sh",
-            "scripts/virtualbox_cleanup.sh"
-        ],
-        "type": "shell"
-    }],
-    "variables": {
-        "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "cpus": "1",
-        "disable_ipv6": "true",
-        "disk_size": "40960",
-        "headless": "true",
-        "hostname": "bionic64",
-        "http_proxy": "{{env `http_proxy`}}",
-        "https_proxy": "{{env `https_proxy`}}",
-        "iso_checksum": "16afb1375372c57471ea5e29803a89a5a6bd1f6aabea2e5e34ac1ab7eb9786ac",
-        "iso_name": "ubuntu-16.04.6-server-amd64.iso",
-        "iso_checksum_type": "sha256",
-        "iso_path": "iso",
-        "iso_url": "http://releases.ubuntu.com/16.04.6/ubuntu-16.04.6-server-amd64.iso",
-        "memory": "1024",
-        "no_proxy": "{{env `no_proxy`}}",
-        "preseed": "preseed.cfg",
-        "ssh_fullname": "vagrant",
-        "ssh_password": "vagrant",
-        "ssh_username": "vagrant",
-        "update": "true",
-        "vagrantfile_template": "",
-        "version": "0.1",
-        "virtualbox_guest_os_type": "Ubuntu_64",
-        "vm_name": "ubuntu-16.04"
-    }
+    "provisioners": [
+        {
+            "environment_vars": [
+                "DEBIAN_FRONTEND=noninteractive",
+                "UPDATE={{user `update`}}",
+                "SSH_USERNAME={{user `ssh_username`}}",
+                "SSH_PASSWORD={{user `ssh_password`}}"
+            ],
+            "execute_command": "echo '{{user `ssh_password`}}'|{{.Vars}} sudo -E -S bash '{{.Path}}'",
+            "expect_disconnect": true,
+            "scripts": [
+                "script/update.sh",
+                "script/motd.sh",
+                "script/vagrant.sh",
+                "script/packages.sh",
+                "script/minimize.sh",
+                "script/virtualbox.sh",
+                "script/cleanup.sh"
+            ],
+            "type": "shell"
+        }
+    ],
+    "post-processors": [
+        [
+          {
+            "type": "vagrant",
+            "keep_input_artifact": false,
+            "output": "{{ user `build_name` }}-{{ user `version` }}.box"
+          },
+          {
+            "type": "shell-local",
+            "inline": [
+              "vagrant box add --name {{ user `build_name` }} --provider virtualbox {{ user `build_name` }}-{{ user `version` }}.box -f"
+            ]
+          }
+        ]
+    ]
 }
